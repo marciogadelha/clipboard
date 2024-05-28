@@ -7,8 +7,34 @@
 </head>
 <body>
     <script>
-            navigator.clipboard.writeText("Novo teste!");
-			//window.location.href = 'index.html';
+        document.addEventListener('DOMContentLoaded', function() {
+            try {
+                // Cria um elemento input temporário para copiar o texto
+                var input = document.createElement('input');
+                input.style.position = 'fixed';
+                input.style.opacity = 0;
+                input.value = "Meu texto"; // Texto a ser copiado
+                document.body.appendChild(input);
+                
+                // Seleciona o texto
+                input.select();
+                input.setSelectionRange(0, 99999); // Para dispositivos móveis
+
+                // Executa o comando de cópia
+                document.execCommand('copy');
+				console.info('Copiado!');
+
+                // Remove o elemento input
+                //document.body.removeChild(input);
+
+                // Redireciona de volta para a página original
+                //window.location.href = 'index.html';
+            } catch (error) {
+                console.error('Erro ao copiar texto:', error);
+                // Redireciona de volta para a página original em caso de erro
+                //window.location.href = 'index.html';
+            }
+        });
     </script>
 </body>
 </html>
