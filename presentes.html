@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sugestão de Presentes</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f0f0f0;
+        }
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        .title {
+            text-align: center;
+            font-size: 24px;
+            margin-bottom: 20px;
+        }
+        .quadro {
+            background-color: #ffffff;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            padding: 20px;
+            margin-bottom: 20px;
+        }
+        .quadro img {
+            max-width: 100%;
+            height: auto;
+            display: block;
+            margin: 0 auto;
+        }
+        .qr-code {
+            display: block;
+            margin: 10px auto;
+        }
+        .copy-button {
+            display: block;
+            margin: 10px auto;
+            padding: 5px 10px;
+            background-color: #007bff;
+            color: #ffffff;
+            border: none;
+            border-radius: 3px;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1 class="title">Sugestão de Presentes</h1>
+        <div id="quadros"></div>
+    </div>
+
+    <script>
+        // Função para carregar quadros a partir de um arquivo CSV
+        function carregarQuadros() {
+            // Substitua "produtos.csv" pelo caminho do seu arquivo CSV
+            fetch('produtos.csv')
+                .then(response => response.text())
+                .then(text => {
+                    // Dividir o texto em linhas e criar quadros para cada linha
+                    text.trim().split('\n').forEach(linha => {
+                        const campos = linha.split(',');
+                        const quadro = `
+                            <div class="quadro">
+                                <h2>${campos[0]}</h2>
+                                <img src="${campos[1]}" alt="${campos[0]}">
+                                <img class="qr-code" src="https://api.qrserver.com/v1/create-qr-code/?data=${campos[2]}&size=100x100" alt="QR Code">
+                                <p>Código do QR Code: ${campos[2]}</p>
+                                <button class="copy-button" onclick="copiarTexto('${campos[2]}')">Copiar Código</button>
+                            </div>
+                        `;
+                        document.getElementById('quadros').innerHTML += quadro;
+                    });
+                })
+                .catch(error => console.error('Erro ao carregar quadros:', error));
+        }
+
+        // Função para copiar texto para a área de transferência
+        function copiarTexto(texto) {
+            navigator.clipboard.writeText(texto)
+                .then(() => alert('Código copiado com sucesso!'))
+                .catch(error => console.error('Erro ao copiar código:', error));
+        }
+
+        // Carregar quadros ao carregar a página
+        window.onload = carregarQuadros;
+    </script>
+</body>
+</html>
