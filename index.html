@@ -24,7 +24,7 @@
                         const campos = linha.split(';');
                         const quadro = `
                             <div class="quadro">
-                                <h2>${campos[0]}</h2>
+                                <h3>${campos[0]}</h3>
                                 <img src="${campos[1]}" alt="${campos[0]}">
                                 <b><p>R$ ${campos[3]}</p></b>
                                 <img class="qr-code" src="https://api.qrserver.com/v1/create-qr-code/?data=${campos[2]}&size=120x120" alt="QR Code ${campos[0]}: R$ ${campos[3]}">
